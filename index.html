@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html ng-app="app1">
+  <head>
+    <title>Bicycle Incidents</title>
+    <!-- Load the AngularJS library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.js"></script>
+
+    <!-- Load the JS Module -->
+    <script src="js/incident.js"></script>
+  </head>
+  <body>
+
+
+    <div ng-controller="ctrl1">
+
+      <select ng-model="loc">
+        <option>Sydney</option>
+        <option>Brisbane</option>
+        <option>Melbourne</option>
+      </select>
+
+      <select ng-model="incType">
+        <option>crash</option>
+        <option>hazard</option>
+        <option>theft</option>
+        <option>unconfirmed</option>
+      </select>
+
+      <button ng-click="search()">Search</button>
+      <br><br>
+
+<div  ng-if="summaryResult.length">
+<b><span>Incident Type Summary</span></b>
+<table>
+  <tr>
+    <th>Incident type</th>
+    <th>Count</th>
+    <th>Most Common Incident occurrence date</th>
+  </tr>
+  <tr ng-repeat="(key, value) in summaryResult | groupBy : 'properties.type'">
+<td>{{key}}</td>
+<td>{{ value.length }} </td>
+<td ng-repeat="rec in value">
+<td ng-init="res=getDate()"></td>
+</tr>
+</table>
+</div>
+
+
+<br><br>
+<div  ng-if="result.length">
+<b><span>Incident details</span></b>
+      <table>
+        <tr>
+          <th>Incident type</th>
+          <th>Incident Date</th>
+          <th>Title</th>
+          <th>Type</th>
+        </tr>
+        <tr ng-repeat="res in result | orderBy :['properties.occurred_at','incType']">
+      <td>{{incType}}</td>
+    <td>{{res.properties.occurred_at}}</td>
+    <td>{{res.properties.title}}</td>
+    <td>{{res.type}}</td>
+    </tr>
+    </table>
+  </div>
+    </div>
+
+
+  </body>
+  </html>
